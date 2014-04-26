@@ -35,3 +35,8 @@
   outline: 0;
   background-color: #428bca;
 }
+
+
+.form-group input.tt-hint[disabled], .form-group input.tt-hint:disabled {
+    background-color: #FFF !important;
+}
