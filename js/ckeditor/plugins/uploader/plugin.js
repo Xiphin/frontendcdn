@@ -87,7 +87,7 @@ CKEDITOR.plugins.add('uploader', {
 			var cn = "." + editor.ui.items["UploaderBtn"].className;
 			$(cn).parent().css("position", "relative");
 			var fileUploader = $('<input type="file" multiple="" class="editor-upload-handle" ' +
-					'data-connect-editor=".editor-content" style="position: absolute;top: 0;left: 0;margin: 0;opacity: 0;-ms-filter: \'alpha(opacity=0)\';font-size: 200px;direction: ltr;cursor: pointer;">');
+					'data-connect-editor=".editor-content" style="position: absolute;width:32px;height:32px;opacity: 0;-ms-filter: \'alpha(opacity=0)\';font-size: 200px;direction: ltr;cursor: pointer;">');
 			$(cn).after(fileUploader);
 			
 			__initHtmlEditorUploader__(fileUploader,editor);
