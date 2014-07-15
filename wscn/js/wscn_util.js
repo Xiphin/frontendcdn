@@ -2,7 +2,7 @@ var WSCN_UTIL = {};
 
 (function (util) {
 
-	util.Cookie = {
+	util.cookie = {
 		getCookie : function (key) {
 
 			if (document.cookie.length > 0) {
@@ -17,7 +17,7 @@ var WSCN_UTIL = {};
 				}
 			}
 			return "";
-		}
+		},
 
 		setCookie : function (key, value, expiredays) {
 			var expires = '';
@@ -31,49 +31,59 @@ var WSCN_UTIL = {};
 			document.cookie = encodeURIComponent(key) + "=" + encodeURIComponent(value) + expires;
 		}
 	};
-	
-	util.mobile = {
-		detectOrientation : function(callback){  
-            var supportOrientation=(typeof window.orientation == "number" && typeof window.onorientationchange == "object");  
-  
-            var updateOrientation=function(){  
-                if(supportOrientation){  
-                    updateOrientation=function(){  
-                        var orientation=window.orientation;  
-                        switch(orientation){  
-                            case 90:  
-                            case -90:  
-                                orientation="landscape";  
-                                break;  
-                            default:  
-                                orientation="portrait";  
-                        }  
-                        document.body.parentNode.setAttribute("class",orientation); 
-						callback && callback(orientation);
-                    };  
-                }else{  
-                    updateOrientation=function(){  
-                        var orientation=(window.innerWidth > window.innerHeight)? "landscape":"portrait";  
-                        document.body.parentNode.setAttribute("class",orientation);  
-						callback && callback(orientation);
-                    };  
-                }  
-                updateOrientation();  
-            };  
-  
-            var init=function(){  
-                updateOrientation();  
-                if(supportOrientation){  
-                    window.addEventListener("orientationchange",updateOrientation,false);  
-                }else{      
-                    window.setInterval(updateOrientation,5000);  
-                }  
-            };  
-            window.addEventListener("DOMContentLoaded",init,false);  
-        }
-		
+
+	util.url = {
+		parseQueryString : function (url) {
+			url && (url = url.substr(url.indexOf("?") + 1)); 
+			var result = {}, queryString = url || location.search.substring(1),
+				re = /([^&=]+)=([^&]*)/g,m;
+			while (m = re.exec(queryString)) { 
+				result[decodeURIComponent(m[1])] = decodeURIComponent(m[2]); 
+			}
+			return result;
+		}
 	};
-	
-	
+
+	util.mobile = {
+		detectOrientation : function (callback) {
+			var supportOrientation = (typeof window.orientation == "number" && typeof window.onorientationchange == "object");
+
+			var updateOrientation = function () {
+				if (supportOrientation) {
+					updateOrientation = function () {
+						var orientation = window.orientation;
+						switch (orientation) {
+						case 90:
+						case  - 90:
+							orientation = "landscape";
+							break;
+						default:
+							orientation = "portrait";
+						}
+						document.body.parentNode.setAttribute("class", orientation);
+						callback && callback(orientation);
+					};
+				} else {
+					updateOrientation = function () {
+						var orientation = (window.innerWidth > window.innerHeight) ? "landscape" : "portrait";
+						document.body.parentNode.setAttribute("class", orientation);
+						callback && callback(orientation);
+					};
+				}
+				updateOrientation();
+			};
+
+			var init = function () {
+				updateOrientation();
+				if (supportOrientation) {
+					window.addEventListener("orientationchange", updateOrientation, false);
+				} else {
+					window.setInterval(updateOrientation, 5000);
+				}
+			};
+			window.addEventListener("DOMContentLoaded", init, false);
+		}
+
+	};
 
 })(WSCN_UTIL)
