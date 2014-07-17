@@ -1,3 +1,10 @@
+//添加 trim 方法
+if (!String.prototype.trim) {
+    String.prototype.trim = function () {
+        return this.replace(/^\s+|\s+$/g, '');
+    };
+}
+
 var WSCN_UTIL = {};
 
 (function (util) {
@@ -85,5 +92,46 @@ var WSCN_UTIL = {};
 		}
 
 	};
+    util.dom = {
+        /**
+         * 转换dom上设置的data-?的值转换为js对象
+         * @param str
+         * @returns
+         */
+        parseDomData : function(str) {
+            if (typeof str !== 'string') {
+                return ;
+            }
+            //str = str.replace(/\s/g, '');
+            var array = str.split(';');
+            var obj = {};
+            for (var l=array.length-1; l>-1; l--) {
+                var item = array[l];
+                var index = item.indexOf(':');
+                if (index > -1 && (index < item.length - 1)) {
+                    var key = item.substring(0, index).trim();
+                    key = key.replace(/-\w/g, function(word) {
+                        return word.charAt(1).toUpperCase();
+                    });
+                    var value = item.substring(index+1).trim();
+                    //类型转换 boolean
+                    switch (value) {
+                        case 'true':
+                            value = true;
+                            break;
+                        case 'false':
+                            value = false;
+                            break;
+                    }
+                    //类型转换 number
+                    if (/^(-?\d+)(\.\d+)?$/.test(value)) {
+                        value = + value;
+                    }
+                    obj[key] = value;
+                }
+            }
+            return obj;
+        }
+    };
 
 })(WSCN_UTIL)
