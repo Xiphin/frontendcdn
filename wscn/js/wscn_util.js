@@ -92,6 +92,19 @@ var WSCN_UTIL = {};
 		}
 
 	};
+	
+	util.browser = {
+		iOS : function(){
+			return /iphone|ipad|ipod/.test(navigator.userAgent.toLowerCase());
+		},
+		
+		android : function(){
+			return /android/.test(navigator.userAgent.toLowerCase());
+		}
+	
+	};
+	
+	
     util.dom = {
         /**
          * 转换dom上设置的data-?的值转换为js对象
